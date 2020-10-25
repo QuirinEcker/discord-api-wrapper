@@ -13,23 +13,18 @@ export default class DiscordClient {
         DiscordClient.instanceResolve(this)
     }
 
-    private init() {
-        console.log("bot connected")
-    }
-
     public connect() {
         return new Promise(((resolve, reject) => {
             this.client.login(this.token)
+                .then(() => {
+                    resolve()
+                    console.log("login callback is finished")
+                })
                 .catch(reject)
-
-            this.client.on('ready', () => {
-                this.init()
-                resolve()
-            })
         }))
     }
 
     public static get instance(): Promise<DiscordClient> {
-        return DiscordClient._instance.then()
+        return DiscordClient._instance
     }
 }
